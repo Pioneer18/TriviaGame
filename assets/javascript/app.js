@@ -24,24 +24,9 @@ $(document).ready(function(){
         game["Q9"]= ["which mountain is considered most dangerous to climb in the world?","Mt Everest","Kilimanjaro","Annapurna","K2"];
         game["Q10"]= ["what is the biggest organism in the world?","blue whale","A Sequoia tree","A honey fungus","sperm whale" ];
         
-    
-    //this loop is select each question and insert that Q class question
-    for(i=1; i < 11; i++){
-        //this should be looping through html elements by id Q(1-4) and filling in the element with the 
-        //object property that matches the id. e.g. id Q1.html(property Q1)
-        $(".Q"+ i).html(game["Q"+ i][0]);
-        //add splice off index 0 and shuffle the copied array
-        var answers = game["Q" + i].slice(1);
-        console.log(answers);
-        shuffle(answers);
-        console.log("shuffled answers: " + answers);
-            for(s=1; s<5 ; s++){
-                //this loop will target the answer choices of the question and fill in the answers
-                //and fill them in
-                $(".Q"+ i + "-a"+ s).text(answers[s-1]);
-            } 
-    }
-    
+//load game questions and related answers to the html
+loadTest();
+
 
 
 //this is the "Fisher-Yates Shuffle" apparently "The only way to shuffle
@@ -57,6 +42,24 @@ function shuffle (array) {
     array[i] = array[j]
     array[j] = temp
   }
+}
+
+function loadTest () {
+    for(i=1; i < 11; i++){
+        //this should be looping through html elements by id Q(1-4) and filling in the element with the 
+        //object property that matches the id. e.g. id Q1.html(property Q1)
+        $(".Q"+ i).html(game["Q"+ i][0]);
+        //add splice off index 0 and shuffle the copied array
+        var answers = game["Q" + i].slice(1);
+        console.log(answers);
+        shuffle(answers);
+        console.log("shuffled answers: " + answers);
+            for(s=1; s<5 ; s++){
+                //this loop will target the answer choices of the question and fill in the answers
+                //and fill them in
+                $(".Q"+ i + "-a"+ s).text(answers[s-1]);
+            } 
+    }
 }
 
   
