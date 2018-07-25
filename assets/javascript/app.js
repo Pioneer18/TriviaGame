@@ -1,121 +1,58 @@
-/*
-* You'll create a trivia form with multiple choice or true/false options (your choice).
-
-* The player will have a limited amount of time to finish the quiz. 
-
-* The game ends when the time runs out. The page will reveal the number of questions that players answer correctly and incorrectly.
-
-* Don't let the player pick more than one answer per question.
-
-* Don't forget to include a countdown timer.
-*/
-
-$(document).ready(function(){
-    //make the game object
-    game = {};
-        game["Q1"] = ["when was Jonathan D. Sells born?","1992","1989","1994","1990"];
-        game["Q2"] = ["where was Jonathan D. Sells born?","Chicago","Tampa","Brandon","St.Petersburg"];
-        game["Q3"]= ["which sport is My best?","basketball","rugby","soccer","track & field" ];
-        game["Q4"]= ["Most sold item in Walmart?","toilet paper","bottled water","Cola","bananas" ];
-        game["Q5"]= ["best type of soup?","clam chowder","pho","ramen","chicken noodle" ];
-        game["Q6"]= ["where was President Trump born?","New York","LA","Chicago","DC" ];
-        game["Q7"]= ["What is the Long Jump World Record?","29ft 4.25in","24ft 8in","26ft 7in","28ft 9.75in" ];
-        game["Q8"]= ["which is the best sport; empirically?","basketball","badminton","ultimate frisbee","cricket" ];
-        game["Q9"]= ["which mountain is considered most dangerous to climb in the world?","Mt Everest","Kilimanjaro","Annapurna","K2"];
-        game["Q10"]= ["what is the biggest organism in the world?","blue whale","A Sequoia tree","A honey fungus","sperm whale" ];
-        
-//load game questions and related answers to the html
-//loadTest();
-//make a random array
-//randomizeQuestions();
-//load the random test
-randomLoadTest();
+//OVERALL CONCEPT
+//*1)link Trivia API to the project (a completely free JSON API for use in 
+//programing projects. Use of this API does not require an API key. Just a
+//url that will be generated below)
+//*2)Using an API guarantees that the questions will not be the same each time
+//however the user should be able to select the category and difficulty of the
+//trivia quiz as well
+//*3)category and difficulty are selectable from the api, everything really 
+//revolves around the API
+//*4)Use jquery/javascript to build the html to display the questions; display the
+//questions in <h1> and the answer choices in following <input type="radio">
+//*5)give the answer
 
 
+//Session Tokens
+//unique keys to track the questions the API has already retrieved, as to not repeat.
+//append to API call, prevents repeats
+//after exhaustion of the database, choose to reset the token
+//deleted after 6 hours of inactivity
 
-//this is the "Fisher-Yates Shuffle" apparently "The only way to shuffle
-//an array in JavaScript"
-function shuffle (array) {
-  var i = 0
-    , j = 0
-    , temp = null
+//using a session token
+//https://opentdb.com/api.php?amount=10&token=YOURTOKENHERE
+//retrieve a session token
+//https://opentdb.com/api_token.php?command=request
+//reset a session token
+//https://opentdb.com/api_token.php?command=reset&token=YOURTOKENHERE
 
-  for (i = array.length - 1; i > 0; i -= 1) {
-    j = Math.floor(Math.random() * (i + 1))
-    temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
-  }
-}
-
-function loadTest () {
-    for(i=1; i < 11; i++){
-        //this should be looping through html elements by id Q(1-4) and filling in the element with the 
-        //object property that matches the id. e.g. id Q1.html(property Q1)
-        $(".Q"+ i).html(game["Q"+ i][0]);
-        //add splice off index 0 and shuffle the copied array
-        var answers = game["Q" + i].slice(1);
-        shuffle(answers);
-            for(s=1; s<5 ; s++){
-                //this loop will target the answer choices of the question and fill in the answers
-                //and fill them in
-                $(".Q"+ i + "-a"+ s).text(answers[s-1]);
-            } 
-    }
-}
-
-function randomizeQuestions () {
-    var loading = [];
-    //need to randomize the order that the properties are displayed, not actually the order in the object
-    //make array of the same length as number of trivia questions
-    //var loading = [];
-    var totalQuestions = Object.keys(game).length;
-    //use object.keys to key the total # of questions (properties in the game object)
-    //build an array the same length of the object.keys; we start at 1
-    for (var i = 1; i < totalQuestions + 1; i++){
-        //push to loading to build the array
-        loading.push(i);
-    }
-    //now call the shuffle function on this array to shuffle the question loader
-    shuffle(loading);
-    return loading
-
-    
-}
-
-function randomLoadTest () {
-    //shuffle the questions
-    var loading = randomizeQuestions();
-    console.log("yes it works! chekc it out below")
-    console.log(loading);
-    //now loop through loading to load game questions to the screen
-    for(i =0; i < loading.length; i++){
-        //grab the random bumber from each loading index
-        var x = loading[i];
-        //so we now have random numbers to call random questions. call the questions and their related answers
-        //call the id that matches the x and input the question that matches the x
-        //should be randomly loading the questions now..no answers yet
-        console.log("targeting: .Q" + x + "  Q" + x)
-        $(".Q"+ x).html(game["Q" + x][0]);
-        
-    }
-
-}
+//response codes
+//appended to each api call to tell developer what the api is doing
+//codes:
+//0 = success
+//1 = no result (not enough questions for your querry size)
+//2 = invalid parameter
+//3 = token not found; session token does not exist
+//4 = token empty; must reset the token
 
 
+//building the request url
+//the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
+var category = "17";
+//this should be filled by prompting the user somehow (button click,radio input,whatever)
+var difficulty = "medium" 
+//this is the # of questions on the quiz
+var amount = "10"
+//make variable to hold the finished request url
+var queryURL = "https://opentdb.com/api.php?amount=" + amount +"&category=" + category + "&difficulty=" +
+difficulty + "&type=multiple";
+console.log(queryURL);
 
-
-//this is an optional function 
-function paste(x){
-    $(".Q"+ i).html(game["Q"+ i][0]);
-    //add splice off index 0 and shuffle the copied array
-    var answers = game["Q" + i].slice(1);
-    shuffle(answers);
-        for(s=1; s<5 ; s++){
-            //this loop will target the answer choices of the question and fill in the answers
-            //and fill them in
-            $(".Q"+ i + "-a"+ s).text(answers[s-1]);
-        } 
-}
-  
+//make a call to the Trivia API with an ajax object
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).then(function(response){
+    console.log(response);
 });
+
+
