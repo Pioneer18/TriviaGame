@@ -26,7 +26,8 @@ $(document).ready(function(){
         
 //load game questions and related answers to the html
 loadTest();
-randomizeTest();
+//randomizeTest();
+randomLoadTest();
 
 
 
@@ -62,11 +63,13 @@ function loadTest () {
 }
 
 function randomizeTest () {
+    console.log("hello");
+    var loading = [];
+    console.log(loading);
     //need to randomize the order that the properties are displayed, not actually the order in the object
     //make array of the same length as number of trivia questions
-    var loading = [];
+    //var loading = [];
     var totalQuestions = Object.keys(game).length;
-    console.log(totalQuestions);
     //use object.keys to key the total # of questions (properties in the game object)
     //build an array the same length of the object.keys; we start at 1
     for (var i = 1; i < totalQuestions + 1; i++){
@@ -77,7 +80,27 @@ function randomizeTest () {
     //now call the shuffle function on this array to shuffle the question loader
     shuffle(loading);
     console.log(loading);
+    return loading
+
+    
 }
 
+function randomLoadTest () {
+    //shuffle the questions
+    var loading = randomizeTest();
+    console.log("yes it works! chekc it out below")
+    console.log(loading);
+    //this should be looping through html elements by id Q(1-4) and filling in the element with the 
+    //object property that matches the id. e.g. id Q1.html(property Q1)
+    $(".Q"+ i).html(game["Q"+ i][0]);
+    //add splice off index 0 and shuffle the copied array
+    var answers = game["Q" + i].slice(1);
+    shuffle(answers);
+        for(s=1; s<5 ; s++){
+            //this loop will target the answer choices of the question and fill in the answers
+            //and fill them in
+            $(".Q"+ i + "-a"+ s).text(answers[s-1]);
+        } 
+}
   
 });
