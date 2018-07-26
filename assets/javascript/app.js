@@ -55,20 +55,7 @@ $(document).ready(function(){
         show("game");
     });
     //make the restart button
-    var restartBtn = $("<button>").attr({
-        id:"restartBtn",
-        type:"button",
-        value:"Restart-Game"
-        });
-        //label the button
-        restartBtn.text("Restart Game");
-        //display the button below the quiz
-        $("#finsihed-screen").append(restartBtn);
-        //make the quiz go away and the finished screen appear when restartBtn is clicked
-        $(finishedBtn).on("click", function(){
-            hide("finished-screen");
-            show("start-screen");
-        });
+    
 
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
