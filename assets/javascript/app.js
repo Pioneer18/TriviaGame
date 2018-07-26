@@ -45,7 +45,6 @@ var amount = "10"
 //make variable to hold the finished request url
 var queryURL = "https://opentdb.com/api.php?amount=" + amount +"&category=" + category + "&difficulty=" +
 difficulty + "&type=multiple";
-console.log(queryURL);
 
 //make a call to the Trivia API with an ajax object
 $.ajax({
@@ -53,6 +52,18 @@ $.ajax({
     method: "GET"
 }).then(function(response){
     console.log(response);
+    console.log(response.results[0].question);
+    //TASK: drill into the array of objects, build the html elements to hold the questions & answers
+    //fill the elements with the question and related answers. repeat for each object in array
+    for(i=0; i<response.length; i++){
+    //access and build elements
+    //body already exists, just bind variable body to it so we can append new elements later
+    var body = $("body");
+    //create a div for each question object's content to be added to
+    var qObject = $("<div>"); 
+    //put each question in a <h3>
+    var question = $("<h3>").text(response.results[0].question);
+    }
 });
 
 
