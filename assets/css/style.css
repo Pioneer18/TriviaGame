@@ -1,0 +1,15 @@
+/*these are the default element display settings; they will be overwritten repeatedly by the js as the game is played*/
+#start-screen{
+    display:block;
+}
+/*the game screen starts off hidden till the start button is clicked*/
+#game{
+    display:none;
+}
+/*the finished screen starts off as hidden till the finished button is clicked*/
+#finished-screen{
+    display:none;
+}
+#finishedBtn{
+    margin-top:20px;
+}

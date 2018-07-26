@@ -35,20 +35,6 @@
 //4 = token empty; must reset the token
 
 $(document).ready(function(){
-    //var idk = false;
-    //make a button to hide the start screen and display the trivia
-    //the function to make elements `hide`
-    function hide(){
-        //if idk is true then hide all that biz
-        //if(idk === true){
-        var x = document.getElementById("game");
-        x.style.display = "none";
-        //}
-       //else{
-            //if idk is false don't do nuthin
-           // return
-      //  }
-    }
     //the start button, when clicked it will `hide` the start screen and `display` the test
     //dynamically create a button and give it its attributes (id,type,&value)
     var startbtn = $("<button>").attr({
@@ -56,16 +42,33 @@ $(document).ready(function(){
         type:"button",
         value:"Start-Game"
     });
-    startbtn.text("Boo");
+    //label the button
+    startbtn.text("Start Game");
     //display the button under the title
     $("#start-screen").append(startbtn);
-    //make the button call the hide function and change the game display when clicked
+    //make the button call the hide function and change the game display when clicked (hide is created at the bottom of the page)
     $(startBtn).on("click", function(){
         console.log("boo");
         //idk = true;
         //hide the test questions
-        hide();
+        hide("start-screen");
+        show("game");
     });
+    //make the restart button
+    var restartBtn = $("<button>").attr({
+        id:"restartBtn",
+        type:"button",
+        value:"Restart-Game"
+        });
+        //label the button
+        restartBtn.text("Restart Game");
+        //display the button below the quiz
+        $("#finsihed-screen").append(restartBtn);
+        //make the quiz go away and the finished screen appear when restartBtn is clicked
+        $(finishedBtn).on("click", function(){
+            hide("finished-screen");
+            show("start-screen");
+        });
 
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
@@ -83,10 +86,9 @@ $(document).ready(function(){
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        //maybe add an if boolean here or an onclick of the start button to load the quiz
-        //TASK: drill into the array of objects, build the html elements to hold the questions & answers
-        //fill the elements with the question and related answers. repeat for each object in array
-        //body already exists, just bind variable body to it so we can append new elements later
+        //PURPOSE: This ajax call will create a test in the HTML element #game.
+        //The test is displayed when the user clicks the `start game` button
+        //Since it is an API query, the test will be different everytime (till the database is exhausted, then start over);
         var body = $("#game");
         for(i=0; i <response.results.length; i++){
             //access and build elements
@@ -133,6 +135,22 @@ $(document).ready(function(){
             //append the fully loaded qBlock to the body
             $(body).append(qObject);
         }
+        //create the finished button
+        var finishedBtn = $("<button>").attr({
+        id:"finishedBtn",
+        type:"button",
+        value:"Finish-Game"
+        });
+        //label the button
+        finishedBtn.text("Finish Game");
+        //display the button below the quiz
+        $("#game").append(finishedBtn);
+        //make the quiz go away and the finished screen appear when finishedBtn is clicked
+        $(finishedBtn).on("click", function(){
+            hide("game");
+            show("finished-screen");
+        });
+
     });
 
     //this is the "Fisher-Yates Shuffle" apparently "The only way to shuffle
@@ -148,6 +166,26 @@ $(document).ready(function(){
         array[i] = array[j]
         array[j] = temp
         }
+    }
+    //This function will hide any element when passed the element id
+    function hide(x){
+        var y = document.getElementById(x);
+        y.style.display = "none";
+    }
+    //this function will show any element whne passed the element id
+    function show(x){
+        var y = document.getElementById(x);
+        y.style.display = "block";
+    }
+    
+    //can be used to clear out some of above code hopefully
+    function createBtn(newButton,Text,Id,Type,Value){
+            newButton = $("<button>").attr({
+            id:Id,
+            type:Type,
+            value:Value
+        });
+        $(newButton).text(Text);
     }
 
 });

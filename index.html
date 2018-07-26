@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>API fueled Trivia!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="assets/javascript/app.js"></script>
 </head>
@@ -13,13 +14,17 @@
     <div id="start-screen">
         <h1>API Fueled Trivia<small>...no test is the same as the last!</small></h1>
     </div>
-    <!--trivia game questions will be appended into here-->
+
+
+
     <div id="game">
-
+    <!--trivia game questions will be appended into here-->
     </div>
-    <!--once the timer runs out, or the player presses submit, this screen is displayed(removed from hidden) and the other screens are hidden-->
-    <div class="score-screen">
 
+
+    <!--once the timer runs out, or the player presses submit, this screen is displayed(removed from hidden) and the other screens are hidden-->
+    <div id="finished-screen">
+        <h1>You Got Everything Wrong! Congrats...</h1>
     </div>
 </body>
 </html>
