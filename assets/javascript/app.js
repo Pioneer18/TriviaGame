@@ -55,7 +55,11 @@ $(document).ready(function(){
         show("game");
     });
     //make the restart button
-    
+    var restartBtn = $("<button>").attr({
+        id:"restartBtn",
+        type:"button",
+        value:"Restart-Game"
+    });
 
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
