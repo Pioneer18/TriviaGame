@@ -25,9 +25,9 @@ $(document).ready(function(){
         game["Q10"]= ["what is the biggest organism in the world?","blue whale","A Sequoia tree","A honey fungus","sperm whale" ];
         
 //load game questions and related answers to the html
-loadTest();
+//loadTest();
 //make a random array
-//randomizeQuestions();
+randomizeQuestions();
 //load the random test
 //randomLoadTest();
 
@@ -87,8 +87,11 @@ function randomizeQuestions () {
         loading.push(i);
     }
     //now call the shuffle function on this array to shuffle the question loader
+    console.log(loading)
     shuffle(loading);
+    console.log("shuffled " + loading);
     return loading
+    console.log("shuffled " + loading);
 
     
 }

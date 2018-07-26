@@ -51,11 +51,9 @@ $(document).ready(function(){
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        console.log(response);
-        console.log(response.results[0].question);
         //TASK: drill into the array of objects, build the html elements to hold the questions & answers
         //fill the elements with the question and related answers. repeat for each object in array
-        for(i=0; i<response.results.length; i++){
+        for(i=0; i <response.results.length; i++){
         //access and build elements
         //body already exists, just bind variable body to it so we can append new elements later
         var body = $("body");
@@ -63,14 +61,15 @@ $(document).ready(function(){
         var qObject = $("<div>"); 
         //put each question in a <h3>
         var question = $("<h3>").text(response.results[i].question);
-        //make an `answers` array with the correct and incorrect answers
-        var answers = [response.results[i].incorrect_answers];
-        //answers now holds the correct and incorrect answers
-        answers.push(response.results[i].correct_answer)
-        console.log(answers);
+        //make a new array called answers to hold the correct and incorrect answers
+        var answers = [];
+        answers.push(response.results[i].incorrect_answers);
+        answers.push(response.results[i].correct_answer);
+        console.log("the answers: " + answers);
         //now shuffle the array before builiding the input buttons so that
         //the correct answer is not always the last index
-
+        shuffle(answers);
+        console.log("the shuffled answers: " + answers);
         }
     });
 
