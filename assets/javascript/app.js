@@ -35,11 +35,37 @@
 //4 = token empty; must reset the token
 
 $(document).ready(function(){
+    //var idk = false;
     //make a button to hide the start screen and display the trivia
-    function hideFunction(){
-        var x = document.getElementById("start-screen");
+    //the function to make elements `hide`
+    function hide(){
+        //if idk is true then hide all that biz
+        //if(idk === true){
+        var x = document.getElementById("game");
+        x.style.display = "none";
+        //}
+       //else{
+            //if idk is false don't do nuthin
+           // return
+      //  }
     }
-
+    //the start button, when clicked it will `hide` the start screen and `display` the test
+    //dynamically create a button and give it its attributes (id,type,&value)
+    var startbtn = $("<button>").attr({
+        id:"startBtn",
+        type:"button",
+        value:"Start-Game"
+    });
+    startbtn.text("Boo");
+    //display the button under the title
+    $("#start-screen").append(startbtn);
+    //make the button call the hide function and change the game display when clicked
+    $(startBtn).on("click", function(){
+        console.log("boo");
+        //idk = true;
+        //hide the test questions
+        hide();
+    });
 
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
@@ -61,7 +87,7 @@ $(document).ready(function(){
         //TASK: drill into the array of objects, build the html elements to hold the questions & answers
         //fill the elements with the question and related answers. repeat for each object in array
         //body already exists, just bind variable body to it so we can append new elements later
-        var body = $(".game");
+        var body = $("#game");
         for(i=0; i <response.results.length; i++){
             //access and build elements
             //create a div for each question object's content to be added to
