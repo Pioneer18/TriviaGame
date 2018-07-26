@@ -65,31 +65,24 @@ $(document).ready(function(){
             $(qObject).append(question);
             //make a new array called answers to hold the correct and incorrect answers
             var answers = response.results[i].incorrect_answers;
-            console.log("the incorrect answers");
-            console.log(answers);
             answers.push(response.results[i].correct_answer);
-            console.log("the full questions");
-            console.log(answers);
             //now shuffle the array before builiding the input buttons so that
             //the correct answer is not always the last index
             shuffle(answers);
-            console.log("the shuffled answers");
-            console.log(answers);
             //now loop through the answers array & build radio inputs
             for( x = 0; x < answers.length; x++){
                 //check if the  current index is the correct answer
-                console.log("this is x " + x);
                 //if the current index is equal to the correct answer give that input the id of #CA (CorrectAnswer)
                 if(answers[x] === response.results[i].correct_answer){
                     var temp = $("<input>").attr({
                         id:"CA",
                         name:"answer",
                         type:"radio",
-                    }).html(answers[x]);
-                    console.log("hello..hello?");
-                    console.log(temp);
-                    //append the new input button to the qObject
-                    $(qObject).append(temp);
+                    });
+                    //make a new span and put the answer inside
+                    var temp2 = $("<span>").text(answers[x]);
+                    //append the new input button and its span to the qObject
+                    $(qObject).append(temp).append(temp2);
                 }
                 //else give it the #IA (IncorrectAnswer)
                 else{
@@ -97,10 +90,11 @@ $(document).ready(function(){
                         id:"IA",
                         name:"answer",
                         type:"radio"
-                    }).html(answers[x]);
-                    console.log(temp);
-                    //append the new input button to the object
-                    $(qObject).append(temp);
+                    })
+                    //make a new span for the incorrect answers as well
+                    var temp2 = $("<span>").text(answers[x]);
+                    //append the new input button and its span to the qObject
+                    $(qObject).append(temp).append(temp2);
                 }
             }
             //append the fully loaded qBlock to the body
