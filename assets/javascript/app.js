@@ -35,6 +35,12 @@
 //4 = token empty; must reset the token
 
 $(document).ready(function(){
+    //make a button to hide the start screen and display the trivia
+    function hideFunction(){
+        var x = document.getElementById("start-screen");
+    }
+
+
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
     var category = "17";
@@ -51,10 +57,11 @@ $(document).ready(function(){
         url: queryURL,
         method: "GET"
     }).then(function(response){
+        //maybe add an if boolean here or an onclick of the start button to load the quiz
         //TASK: drill into the array of objects, build the html elements to hold the questions & answers
         //fill the elements with the question and related answers. repeat for each object in array
-         //body already exists, just bind variable body to it so we can append new elements later
-         var body = $("body");
+        //body already exists, just bind variable body to it so we can append new elements later
+        var body = $(".game");
         for(i=0; i <response.results.length; i++){
             //access and build elements
             //create a div for each question object's content to be added to
