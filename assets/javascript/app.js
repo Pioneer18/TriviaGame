@@ -60,6 +60,15 @@ $(document).ready(function(){
         type:"button",
         value:"Restart-Game"
     });
+    //label the button
+    restartBtn.text("More Trivia Please");
+    //add button to the finished screen
+    $("#finished-screen").append(restartBtn);
+    //make button bring up the start screen and hide the finished screen
+    $(restartBtn).on("click",function(){
+        hide("finished-screen");
+        show("start-screen");
+    });
 
     //building the request url
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
