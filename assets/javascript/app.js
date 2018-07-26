@@ -34,36 +34,43 @@
 //3 = token not found; session token does not exist
 //4 = token empty; must reset the token
 
+$(document).ready(function(){
+    //building the request url
+    //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
+    var category = "17";
+    //this should be filled by prompting the user somehow (button click,radio input,whatever)
+    var difficulty = "medium" 
+    //this is the # of questions on the quiz
+    var amount = "10"
+    //make variable to hold the finished request url
+    var queryURL = "https://opentdb.com/api.php?amount=" + amount +"&category=" + category + "&difficulty=" +
+    difficulty + "&type=multiple";
 
-//building the request url
-//the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
-var category = "17";
-//this should be filled by prompting the user somehow (button click,radio input,whatever)
-var difficulty = "medium" 
-//this is the # of questions on the quiz
-var amount = "10"
-//make variable to hold the finished request url
-var queryURL = "https://opentdb.com/api.php?amount=" + amount +"&category=" + category + "&difficulty=" +
-difficulty + "&type=multiple";
+    //make a call to the Trivia API with an ajax object
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
+        console.log(response.results[0].question);
+        //TASK: drill into the array of objects, build the html elements to hold the questions & answers
+        //fill the elements with the question and related answers. repeat for each object in array
+        for(i=0; i<response.results.length; i++){
+        //access and build elements
+        //body already exists, just bind variable body to it so we can append new elements later
+        var body = $("body");
+        //create a div for each question object's content to be added to
+        var qObject = $("<div>"); 
+        //put each question in a <h3>
+        var question = $("<h3>").text(response.results[i].question);
+        //make an `answers` array with the correct and incorrect answers
+        var answers = [response.results[i].incorrect_answers];
+        //answers now holds the correct and incorrect answers
+        answers.push(response.results[i].correct_answer)
+        console.log(answers);
+        //now shuffle the array before builiding the input buttons so that
+        //the correct answer is not always the last index
+        }
+    });
 
-//make a call to the Trivia API with an ajax object
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function(response){
-    console.log(response);
-    console.log(response.results[0].question);
-    //TASK: drill into the array of objects, build the html elements to hold the questions & answers
-    //fill the elements with the question and related answers. repeat for each object in array
-    for(i=0; i<response.length; i++){
-    //access and build elements
-    //body already exists, just bind variable body to it so we can append new elements later
-    var body = $("body");
-    //create a div for each question object's content to be added to
-    var qObject = $("<div>"); 
-    //put each question in a <h3>
-    var question = $("<h3>").text(response.results[0].question);
-    }
 });
-
-
