@@ -53,31 +53,58 @@ $(document).ready(function(){
     }).then(function(response){
         //TASK: drill into the array of objects, build the html elements to hold the questions & answers
         //fill the elements with the question and related answers. repeat for each object in array
+         //body already exists, just bind variable body to it so we can append new elements later
+         var body = $("body");
         for(i=0; i <response.results.length; i++){
-        //access and build elements
-        //body already exists, just bind variable body to it so we can append new elements later
-        var body = $("body");
-        //create a div for each question object's content to be added to
-        var qObject = $("<div>"); 
-        //put each question in a <h3>
-        var question = $("<h3>").text(response.results[i].question);
-        //make a new array called answers to hold the correct and incorrect answers
-        var answers = response.results[i].incorrect_answers;
-        console.log("the incorrect answers");
-        console.log(answers);
-        answers.push(response.results[i].correct_answer);
-        console.log("the full questions");
-        console.log(answers);
-        //now shuffle the array before builiding the input buttons so that
-        //the correct answer is not always the last index
-        shuffle(answers);
-        console.log("the shuffled answers");
-        console.log(answers);
-        //now loop through the answers array & build radio inputs
-        for( x = 0; x < answers.length; x++){
-            //check if the  current index is the correct answer
-            console.log("this is x " + x);
-        }
+            //access and build elements
+            //create a div for each question object's content to be added to
+            var qObject = $("<div>"); 
+            //put each question in a <h3>
+            var question = $("<h3>").text(response.results[i].question);
+            //append the new <h3> with the question to the qObject
+            $(qObject).append(question);
+            //make a new array called answers to hold the correct and incorrect answers
+            var answers = response.results[i].incorrect_answers;
+            console.log("the incorrect answers");
+            console.log(answers);
+            answers.push(response.results[i].correct_answer);
+            console.log("the full questions");
+            console.log(answers);
+            //now shuffle the array before builiding the input buttons so that
+            //the correct answer is not always the last index
+            shuffle(answers);
+            console.log("the shuffled answers");
+            console.log(answers);
+            //now loop through the answers array & build radio inputs
+            for( x = 0; x < answers.length; x++){
+                //check if the  current index is the correct answer
+                console.log("this is x " + x);
+                //if the current index is equal to the correct answer give that input the id of #CA (CorrectAnswer)
+                if(answers[x] === response.results[i].correct_answer){
+                    var temp = $("<input>").attr({
+                        id:"CA",
+                        name:"answer",
+                        type:"radio",
+                    }).html(answers[x]);
+                    console.log("hello..hello?");
+                    console.log(temp);
+                    //append the new input button to the qObject
+                    $(qObject).append(temp);
+                }
+                //else give it the #IA (IncorrectAnswer)
+                else{
+                    var temp = $("<input>").attr({
+                        id:"IA",
+                        name:"answer",
+                        type:"radio"
+                    }).html(answers[x]);
+                    console.log(temp);
+                    //append the new input button to the object
+                    $(qObject).append(temp);
+                }
+            }
+            //append the fully loaded qBlock to the body
+            $(body).append(qObject);
         }
     });
 
