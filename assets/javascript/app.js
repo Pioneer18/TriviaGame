@@ -197,6 +197,17 @@ $(document).ready(function(){
         }
 
     }
+    //grade function
+    function grade (){
+        //loop through the # of questions times 4 (since each question gets 4 answers)
+        for(i = 0; i < amount * 4; i++){
+            //this will return true if the input is selected and flase if it is not
+            console.log(toGrade[i].prop('checked'));
+            
+        }
+    }
+    //make an array to hold all the answers. it will be looped throuhg by the grade function 
+    var toGrade =[];
     //a function to hold the ajax call and be called but start button
     function ajaxd(){
         $.ajax({
@@ -221,37 +232,46 @@ $(document).ready(function(){
                 //now shuffle the array before builiding the input buttons so that
                 //the correct answer is not always the last index
                 shuffle(answers);
+                //push the answers to the toGrade[]
                 //now loop through the answers array & build radio inputs
                 for( x = 0; x < answers.length; x++){
                     //check if the  current index is the correct answer
                     //if the current index is equal to the correct answer give that input the id of #CA (CorrectAnswer)
                     if(answers[x] === response.results[i].correct_answer){
                         var temp = $("<input>").attr({
+                            class:"input",
                             id:"CA",
                             name:"answer" + i,
                             type:"radio",
+                            //checked:""
                         });
                         //make a new span and put the answer inside
                         var temp2 = $("<span>").text(answers[x]);
                         //append the new input button and its span to the qObject
                         $(qObject).append(temp).append(temp2);
+                        toGrade.push(temp);
+                        console.log(toGrade);
                     }
                     //else give it the #IA (IncorrectAnswer)
                     else{
                         var temp = $("<input>").attr({
+                            class:"input",
                             id:"IA",
                             name:"answer" + i,
-                            type:"radio"
+                            type:"radio",
+                            //checked:""
                         })
                         //make a new span for the incorrect answers as well
                         var temp2 = $("<span>").text(answers[x]);
                         //append the new input button and its span to the qObject
                         $(qObject).append(temp).append(temp2);
+                        toGrade.push(temp);
                     }
                 }
                 //append the fully loaded qBlock to the body
                 $(body).append(qObject);
             }
+            console.log("all the answers " + toGrade);
             //this is where the timer overrides the buttons and changes the screen to finished and stops/resets
             if(timer.time <= 0){
                 console.log("stop please!");
@@ -277,9 +297,11 @@ $(document).ready(function(){
                 timer.reset();
                 hide("game");
                 show("finished-screen");
+                grade();
             });
-    
+
         });
+    
     }
     
  });
