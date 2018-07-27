@@ -163,6 +163,7 @@ $(document).ready(function(){
             if(timer.time <= 0){
                 timer.stop();
                 timer.reset();
+                grade();
                 hide("game");
                 show("finished-screen");
             }
