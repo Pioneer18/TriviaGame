@@ -50,14 +50,10 @@ $(document).ready(function(){
     $("#start-screen").append(startbtn);
     //make the button call the hide function and change the game display when clicked (hide is created at the bottom of the page)
     $(startBtn).on("click", function(){
-        console.log("boo");
-        //idk = true;
-        //hide the test questions
         hide("start-screen");
         show("game");
-        //update the timer for the game (call the setInerval() method for 2 mins; 120000 milisecods )
-        //make sure to pass the count down through the timeMaker function
-
+        //update the timer for the game (call the timer.start() with 2 minutes
+        timer.start();
     });
 
 
@@ -81,9 +77,9 @@ $(document).ready(function(){
     //the categories are determined by number(need to link user prompts to the corresponding # then pass it in)
     var category = "17";
     //this should be filled by prompting the user somehow (button click,radio input,whatever)
-    var difficulty = "medium" 
+    var difficulty = "medium"; 
     //this is the # of questions on the quiz
-    var amount = "10"
+    var amount = "10";
     //make variable to hold the finished request url
     var queryURL = "https://opentdb.com/api.php?amount=" + amount +"&category=" + category + "&difficulty=" +
     difficulty + "&type=multiple";
@@ -141,6 +137,14 @@ $(document).ready(function(){
             }
             //append the fully loaded qBlock to the body
             $(body).append(qObject);
+        }
+        //this is where the timer overrides the buttons and changes the screen to finished and stops/resets
+        if(timer.time <= 0){
+            console.log("stop please!");
+            timer.stop();
+            //timer.reset();
+            //hide("game");
+            //show("finished-screen");
         }
 
         //create the finished button
@@ -203,12 +207,13 @@ $(document).ready(function(){
     var clockRunning = false;
     //the timer object
     var timer = {
-        time:0,
+        time:10,
         reset: function(){
             //put the time back to start
-            timer.time = 120000;
+            timer.time = 120;
+            var converted = timer.timeConverter(timer.time);
             //display a 2 min time on the page
-            $("#timer").t;ext("02:00");
+            $("#timer").text(converted);
         },
         start: function(){
             if(!clockRunning){
@@ -227,16 +232,27 @@ $(document).ready(function(){
         //most importantly we need to make a count function
         count:function(){
             //this will be called every second and make the time go down
-            timer.time--
+            timer.time--;
+            console.log("time raw " + timer.time);
+            if(timer.time <= 0){
+                timer.stop();
+                timer.reset();
+                console.log(timer.time);
+                console.log("boo");
+                hide("game");
+                show("finished-screen");
+            }
+            
+            //if the timer gets to 0 or lower stop and reset the time and switch to the finished screen
             //we must pass the updated time through the timeConverter() so it looks like minutes and seconds
             //before we can pass it to the HTML
             var converted = timer.timeConverter(timer.time);
             console.log(converted);
             //now display the timer.time to the #timer div
-            $("#timer").text(converted);
+            $("#timer").html(converted);
         },
         //the time converter runs a bit of math to convert our raw count into minutes and seconds
-        timeConverter: function(){
+        timeConverter: function (t) {
             var minutes = Math.floor(t / 60);
             var seconds = t - (minutes * 60);
 
@@ -253,6 +269,7 @@ $(document).ready(function(){
 
             return minutes + ":" + seconds;
         }
-    }
 
-});
+    }
+    
+ });
