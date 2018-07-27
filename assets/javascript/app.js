@@ -159,12 +159,9 @@ $(document).ready(function(){
         count:function(){
             //this will be called every second and make the time go down
             timer.time--;
-            console.log("time raw " + timer.time);
             if(timer.time <= 0){
                 timer.stop();
                 timer.reset();
-                console.log(timer.time);
-                console.log("boo");
                 hide("game");
                 show("finished-screen");
             }
@@ -173,7 +170,6 @@ $(document).ready(function(){
             //we must pass the updated time through the timeConverter() so it looks like minutes and seconds
             //before we can pass it to the HTML
             var converted = timer.timeConverter(timer.time);
-            console.log(converted);
             //now display the timer.time to the #timer div
             $("#timer").html(converted);
         },
@@ -202,12 +198,28 @@ $(document).ready(function(){
         //loop through the # of questions times 4 (since each question gets 4 answers)
         for(i = 0; i < amount * 4; i++){
             //this will return true if the input is selected and flase if it is not
-            console.log(toGrade[i].prop('checked'));
+            //check if the user selected the answer
+            var hold = toGrade[i];
+            
+            if(hold.prop('checked') === true){
+                var ID =$(hold).prop("id");
+                
+                if(ID === "CA"){
+                    //if the answer is correct push it to the correct answer array
+                    correctA.push(hold);
+                }
+                //if the answer is wrong it goes in the wrong array
+                else{
+                    incorrectA.push(hold);
+                }
+            }
             
         }
     }
     //make an array to hold all the answers. it will be looped throuhg by the grade function 
     var toGrade =[];
+    var correctA = [];
+    var incorrectA = [];
     //a function to hold the ajax call and be called but start button
     function ajaxd(){
         $.ajax({
@@ -250,7 +262,6 @@ $(document).ready(function(){
                         //append the new input button and its span to the qObject
                         $(qObject).append(temp).append(temp2);
                         toGrade.push(temp);
-                        console.log(toGrade);
                     }
                     //else give it the #IA (IncorrectAnswer)
                     else{
@@ -271,10 +282,8 @@ $(document).ready(function(){
                 //append the fully loaded qBlock to the body
                 $(body).append(qObject);
             }
-            console.log("all the answers " + toGrade);
             //this is where the timer overrides the buttons and changes the screen to finished and stops/resets
             if(timer.time <= 0){
-                console.log("stop please!");
                 timer.stop();
                 //timer.reset();
                 //hide("game");
