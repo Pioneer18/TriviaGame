@@ -35,6 +35,8 @@
 //4 = token empty; must reset the token
 
 $(document).ready(function(){
+
+
     //the start button, when clicked it will `hide` the start screen and `display` the test
     //dynamically create a button and give it its attributes (id,type,&value)
     var startbtn = $("<button>").attr({
@@ -53,7 +55,12 @@ $(document).ready(function(){
         //hide the test questions
         hide("start-screen");
         show("game");
+        //update the timer for the game (call the setInerval() method for 2 mins; 120000 milisecods )
+        //make sure to pass the count down through the timeMaker function
+
     });
+
+
     //make the restart button
     var restartBtn = $("<button>").attr({
         id:"restartBtn",
@@ -135,6 +142,7 @@ $(document).ready(function(){
             //append the fully loaded qBlock to the body
             $(body).append(qObject);
         }
+
         //create the finished button
         var finishedBtn = $("<button>").attr({
         id:"finishedBtn",
@@ -186,6 +194,65 @@ $(document).ready(function(){
             value:Value
         });
         $(newButton).text(Text);
+    }
+
+    //build the timer object and its methods
+    //Declare variable to the setInterval the runs the countdown
+    var intervalId;
+    //prevent an accidental start button double click from doubling the speed of the timer
+    var clockRunning = false;
+    //the timer object
+    var timer = {
+        time:0,
+        reset: function(){
+            //put the time back to start
+            timer.time = 120000;
+            //display a 2 min time on the page
+            $("#timer").t;ext("02:00");
+        },
+        start: function(){
+            if(!clockRunning){
+                //set the count function to run every second
+                intervalId = setInterval(timer.count, 1000);
+                //this is where we prevent an accidental double click
+                clockRunning = true;
+            }
+        },
+        stop: function(){
+            //use clearInterval to stop the count here so we dont just keep going
+            clearInterval(intervalId);
+            //this sets up the start function to be able to start the clock again
+            clockRunning = false;
+        },
+        //most importantly we need to make a count function
+        count:function(){
+            //this will be called every second and make the time go down
+            timer.time--
+            //we must pass the updated time through the timeConverter() so it looks like minutes and seconds
+            //before we can pass it to the HTML
+            var converted = timer.timeConverter(timer.time);
+            console.log(converted);
+            //now display the timer.time to the #timer div
+            $("#timer").text(converted);
+        },
+        //the time converter runs a bit of math to convert our raw count into minutes and seconds
+        timeConverter: function(){
+            var minutes = Math.floor(t / 60);
+            var seconds = t - (minutes * 60);
+
+            if (seconds < 10) {
+            seconds = "0" + seconds;
+            }
+
+            if (minutes === 0) {
+            minutes = "00";
+            }
+            else if (minutes < 10) {
+            minutes = "0" + minutes;
+            }
+
+            return minutes + ":" + seconds;
+        }
     }
 
 });
