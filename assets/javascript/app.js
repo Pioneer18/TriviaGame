@@ -212,9 +212,18 @@ $(document).ready(function(){
                 else{
                     incorrectA.push(hold);
                 }
-            }
-            
+            }            
         }
+        //now display the score
+        var totalCorrect = correctA.length;
+        var totalIncorrect = incorrectA.length;
+        //display total correct and incorrect to the finished-screen
+        //create a <div> to hold the score
+        var score = $("<div>").attr({ id:"score"}); 
+        //add the scores to the div
+        $(score).html("Total Correct: " + totalCorrect + "<br>" + "Total Incorrect: " + totalIncorrect);
+        $("#finished-screen").append(score);
+
     }
     //make an array to hold all the answers. it will be looped throuhg by the grade function 
     var toGrade =[];
@@ -307,6 +316,7 @@ $(document).ready(function(){
                 hide("game");
                 show("finished-screen");
                 grade();
+                
             });
 
         });
