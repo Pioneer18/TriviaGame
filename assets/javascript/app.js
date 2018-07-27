@@ -70,7 +70,7 @@ $(document).ready(function(){
     //label the button
     restartBtn.text("More Trivia Please");
     //add button to the finished screen
-    $("#finished-screen").append(restartBtn);
+    $("#restart").append(restartBtn);
     //make button bring up the start screen and hide the finished screen
     $(restartBtn).on("click",function(){
         //hide("finished-screen");
@@ -224,7 +224,7 @@ $(document).ready(function(){
         var score = $("<div>").attr({ id:"score"}); 
         //add the scores to the div
         $(score).html("Total Correct: " + totalCorrect + "<br>" + "Total Incorrect: " + totalIncorrect);
-        $("#finished-screen").append(score);
+        $("#final-score").append(score);
 
     }
     //make an array to hold all the answers. it will be looped throuhg by the grade function 

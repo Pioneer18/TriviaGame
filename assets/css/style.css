@@ -20,6 +20,9 @@
 }
 #timer{
     display:block;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
 }
 body{
     background: url(../images/scienceStuff.jpg);
@@ -33,4 +36,30 @@ body{
     margin: 150px auto;
     width:75%;
     border:10px solid #c9c9c9;
+}
+h1{
+    font-family: "Obitron", sans-serif'
+}
+span{
+    font-family: sans-serif;
+}
+#finished-screen{
+    background: #89bdd3;
+    padding:20px;
+    margin: 150px auto;
+    width:75%;
+    border:10px solid #c9c9c9;
+}
+#finished-screen h1{
+    font-family: "Obitron",sans-serif;
+}
+#final-score{
+    font-family: sans-serif;
+    font-size: 18px;
+}
+#restartBtn, #startbtn, #restartbtn{
+    margin-top: 20px;
+    font-family: "Obitron", sans-serif;
+    padding:10px;
+    background:#e3e3e3;
 }
