@@ -50,6 +50,10 @@ $(document).ready(function(){
     $("#start-screen").append(startbtn);
     //make the button call the hide function and change the game display when clicked (hide is created at the bottom of the page)
     $(startBtn).on("click", function(){
+        //query the api and get the trivia test
+        ajaxd();
+        //once the test has loaded from the api
+        //hide the start screen and show the game screen
         hide("start-screen");
         show("game");
         //update the timer for the game (call the timer.start() with 2 minutes
@@ -85,85 +89,7 @@ $(document).ready(function(){
     difficulty + "&type=multiple";
 
     //make a call to the Trivia API with an ajax object
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response){
-        //PURPOSE: This ajax call will create a test in the HTML element #game.
-        //The test is displayed when the user clicks the `start game` button
-        //Since it is an API query, the test will be different everytime (till the database is exhausted, then start over);
-        var body = $("#game");
-        for(i=0; i <response.results.length; i++){
-            //access and build elements
-            //create a div for each question object's content to be added to
-            var qObject = $("<div>"); 
-            //put each question in a <h3>
-            var question = $("<h3>").text(response.results[i].question);
-            //append the new <h3> with the question to the qObject
-            $(qObject).append(question);
-            //make a new array called answers to hold the correct and incorrect answers
-            var answers = response.results[i].incorrect_answers;
-            answers.push(response.results[i].correct_answer);
-            //now shuffle the array before builiding the input buttons so that
-            //the correct answer is not always the last index
-            shuffle(answers);
-            //now loop through the answers array & build radio inputs
-            for( x = 0; x < answers.length; x++){
-                //check if the  current index is the correct answer
-                //if the current index is equal to the correct answer give that input the id of #CA (CorrectAnswer)
-                if(answers[x] === response.results[i].correct_answer){
-                    var temp = $("<input>").attr({
-                        id:"CA",
-                        name:"answer",
-                        type:"radio",
-                    });
-                    //make a new span and put the answer inside
-                    var temp2 = $("<span>").text(answers[x]);
-                    //append the new input button and its span to the qObject
-                    $(qObject).append(temp).append(temp2);
-                }
-                //else give it the #IA (IncorrectAnswer)
-                else{
-                    var temp = $("<input>").attr({
-                        id:"IA",
-                        name:"answer",
-                        type:"radio"
-                    })
-                    //make a new span for the incorrect answers as well
-                    var temp2 = $("<span>").text(answers[x]);
-                    //append the new input button and its span to the qObject
-                    $(qObject).append(temp).append(temp2);
-                }
-            }
-            //append the fully loaded qBlock to the body
-            $(body).append(qObject);
-        }
-        //this is where the timer overrides the buttons and changes the screen to finished and stops/resets
-        if(timer.time <= 0){
-            console.log("stop please!");
-            timer.stop();
-            //timer.reset();
-            //hide("game");
-            //show("finished-screen");
-        }
-
-        //create the finished button
-        var finishedBtn = $("<button>").attr({
-        id:"finishedBtn",
-        type:"button",
-        value:"Finish-Game"
-        });
-        //label the button
-        finishedBtn.text("Finish Game");
-        //display the button below the quiz
-        $("#game").append(finishedBtn);
-        //make the quiz go away and the finished screen appear when finishedBtn is clicked
-        $(finishedBtn).on("click", function(){
-            hide("game");
-            show("finished-screen");
-        });
-
-    });
+    
 
     //this is the "Fisher-Yates Shuffle" apparently "The only way to shuffle
     //an array in JavaScript"
@@ -207,7 +133,7 @@ $(document).ready(function(){
     var clockRunning = false;
     //the timer object
     var timer = {
-        time:10,
+        time:120,
         reset: function(){
             //put the time back to start
             timer.time = 120;
@@ -270,6 +196,90 @@ $(document).ready(function(){
             return minutes + ":" + seconds;
         }
 
+    }
+    //a function to hold the ajax call and be called but start button
+    function ajaxd(){
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response){
+            //PURPOSE: This ajax call will create a test in the HTML element #game.
+            //The test is displayed when the user clicks the `start game` button
+            //Since it is an API query, the test will be different everytime (till the database is exhausted, then start over);
+            var body = $("#game");
+            for(i=0; i <response.results.length; i++){
+                //access and build elements
+                //create a div for each question object's content to be added to
+                var qObject = $("<div>"); 
+                //put each question in a <h3>
+                var question = $("<h3>").text(response.results[i].question);
+                //append the new <h3> with the question to the qObject
+                $(qObject).append(question);
+                //make a new array called answers to hold the correct and incorrect answers
+                var answers = response.results[i].incorrect_answers;
+                answers.push(response.results[i].correct_answer);
+                //now shuffle the array before builiding the input buttons so that
+                //the correct answer is not always the last index
+                shuffle(answers);
+                //now loop through the answers array & build radio inputs
+                for( x = 0; x < answers.length; x++){
+                    //check if the  current index is the correct answer
+                    //if the current index is equal to the correct answer give that input the id of #CA (CorrectAnswer)
+                    if(answers[x] === response.results[i].correct_answer){
+                        var temp = $("<input>").attr({
+                            id:"CA",
+                            name:"answer",
+                            type:"radio",
+                        });
+                        //make a new span and put the answer inside
+                        var temp2 = $("<span>").text(answers[x]);
+                        //append the new input button and its span to the qObject
+                        $(qObject).append(temp).append(temp2);
+                    }
+                    //else give it the #IA (IncorrectAnswer)
+                    else{
+                        var temp = $("<input>").attr({
+                            id:"IA",
+                            name:"answer",
+                            type:"radio"
+                        })
+                        //make a new span for the incorrect answers as well
+                        var temp2 = $("<span>").text(answers[x]);
+                        //append the new input button and its span to the qObject
+                        $(qObject).append(temp).append(temp2);
+                    }
+                }
+                //append the fully loaded qBlock to the body
+                $(body).append(qObject);
+            }
+            //this is where the timer overrides the buttons and changes the screen to finished and stops/resets
+            if(timer.time <= 0){
+                console.log("stop please!");
+                timer.stop();
+                //timer.reset();
+                //hide("game");
+                //show("finished-screen");
+            }
+    
+            //create the finished button
+            var finishedBtn = $("<button>").attr({
+            id:"finishedBtn",
+            type:"button",
+            value:"Finish-Game"
+            });
+            //label the button
+            finishedBtn.text("Finish Game");
+            //display the button below the quiz
+            $("#game").append(finishedBtn);
+            //make the quiz go away and the finished screen appear when finishedBtn is clicked
+            $(finishedBtn).on("click", function(){
+                timer.stop();
+                timer.reset();
+                hide("game");
+                show("finished-screen");
+            });
+    
+        });
     }
     
  });
