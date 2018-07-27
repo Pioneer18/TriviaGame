@@ -228,7 +228,7 @@ $(document).ready(function(){
                     if(answers[x] === response.results[i].correct_answer){
                         var temp = $("<input>").attr({
                             id:"CA",
-                            name:"answer",
+                            name:"answer" + i,
                             type:"radio",
                         });
                         //make a new span and put the answer inside
@@ -240,7 +240,7 @@ $(document).ready(function(){
                     else{
                         var temp = $("<input>").attr({
                             id:"IA",
-                            name:"answer",
+                            name:"answer" + i,
                             type:"radio"
                         })
                         //make a new span for the incorrect answers as well
