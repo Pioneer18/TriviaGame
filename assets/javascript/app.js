@@ -73,8 +73,9 @@ $(document).ready(function(){
     $("#finished-screen").append(restartBtn);
     //make button bring up the start screen and hide the finished screen
     $(restartBtn).on("click",function(){
-        hide("finished-screen");
-        show("start-screen");
+        //hide("finished-screen");
+       // show("start-screen");
+       window.location.reload();
     });
 
     //building the request url
